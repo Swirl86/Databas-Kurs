@@ -103,31 +103,32 @@ public class LoginGui extends JFrame {
 
             try {
                 /* -- To use created terminal users with privileges use this code -- */
-                // this.con = DriverManager.getConnection("jdbc:mysql://localhost/library", this.userName, this.password);
-                // PreparedStatement pstmt = con.prepareStatement("SHOW GRANTS FOR ?@'localhost';");
-                // pstmt.setString(1, this.userName);
+                this.con = DriverManager.getConnection("jdbc:mysql://localhost/library", this.userName, this.password);
+                PreparedStatement pstmt = con.prepareStatement("SHOW GRANTS FOR ?@'localhost';");
+                pstmt.setString(1, this.userName);
                 /* ------------------------------------------------------------------- */
 
-                /* -- To use tbl_users in database use this code. -- */
-                this.con = DriverManager.getConnection("jdbc:mysql://localhost/library", "root", "root");
-                PreparedStatement pstmt = con.prepareStatement("SELECT Is_admin FROM tbl_users WHERE Login_name = ?;");
-                pstmt.setString(1, this.userName);
+                /* -- To use tbl_users in database use this code.
+                        NOTE: make sure to write existing info instead of root root fot Connection -- */
+                //this.con = DriverManager.getConnection("jdbc:mysql://localhost/library", "root", "root");
+                //PreparedStatement pstmt = con.prepareStatement("SELECT Is_admin FROM tbl_users WHERE Login_name = ?;");
+                //pstmt.setString(1, this.userName);
                 /* ------------------------------------------------------------------- */
 
                 ResultSet rs = pstmt.executeQuery();
                 while (rs.next()) {
 
                     /*  -- To use created terminal users with privileges use this code -- */
-                    //if (rs.getString(1).contains("tbl_employees")) {
-                    // An admin have privileges to access the tbl_employees, a user don't.
-                    // There is no librarian atm, only admin and user. An admin can do everything a librarian can and more.
-                    //     this.isAdmin = true;
-                    // }
+                    if (rs.getString(1).contains("tbl_employees")) {
+                        // An admin have privileges to access the tbl_employees, a user don't.
+                        // There is no librarian atm, only admin and user. An admin can do everything a librarian can and more.
+                        this.isAdmin = true;
+                    }
                     /* ----------------------------------------------------------------- */
 
 
                     /* -- To use tbl_users in database use this code. -- */
-                    this.isAdmin = rs.getBoolean(1);
+                    //this.isAdmin = rs.getBoolean(1);
                     /* ----------------------------------------------------------------- */
                 }
                 dispose();
