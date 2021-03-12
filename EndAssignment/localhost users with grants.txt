@@ -1,0 +1,18 @@
+----------------------- User who can search / borrow / return a book ---------------------------------------------
+
+create user 'user'@'localhost' identified by '123';
+
+GRANT USAGE ON *.* TO `user`@`localhost;
+GRANT SELECT ON `library`.`tbl_books` TO `user`@`localhost;
+GRANT SELECT, INSERT, DELETE ON `library`.`tbl_borrowed_books` TO `user`@`localhost`;
+GRANT SELECT ON `library`.`tbl_borrowers` TO `user`@`localhost`;
+GRANT SELECT ON `library`.`tbl_magazines` TO `user`@`localhost`;
+
+
+------------------ Admin can access / update employee information and borrowed books -------------------------------
+
+create user 'admin'@'localhost' identified by '123';
+
+GRANT USAGE ON *.* TO `admin`@`localhost`;
+GRANT SELECT ON `library`.* TO `admin`@`localhost`;
+GRANT INSERT, UPDATE, DELETE ON `library`.`tbl_employees` TO `admin`@`localhost`;
